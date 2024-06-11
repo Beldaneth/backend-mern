@@ -44,25 +44,25 @@ const updateTask = asyncHandler(async (req,res) => {
 const deleteTask = asyncHandler(async (req, res) => {
     const task = await Task.findById(req.params.id);
     if (!task) {
-        res.status(400);
-        throw new Error('Task not found');
+        res.status(400)
+        throw new Error('Task not found')
     }
 
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user.id)
     if (!user) {
         res.status(401);
-        throw new Error('No such user found');
+        throw new Error('No such user found')
     }
 
-    // Check if task has a user property and it's not undefined before calling toString()
+    // Check if task has a user property and it's not undefined before calling toString() Solved by ChatGPT (Book 35%)
     if (!task.user || task.user.toString() !== user.id) {
-        res.status(401);
-        throw new Error('User is not authorized to delete');
+        res.status(401)
+        throw new Error('User is not authorized to delete')
     }
 
-    await Task.findByIdAndDelete(req.params.id);
+    await Task.findByIdAndDelete(req.params.id)
 
-    res.status(200).json({ id: req.params.id });
-});
+    res.status(200).json({ id: req.params.id })
+})
     
 module.exports = {getTasks, setTask, updateTask, deleteTask}
